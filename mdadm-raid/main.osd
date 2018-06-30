@@ -8,6 +8,30 @@ Copyright (C) 2018  http://github.com/jon-stumpf
 License: GPLv3
 -->
 <data>
+  <enumDef name="RaidLevel" type="uint32">
+    <entry value="0"		name="RAID-0 (Striped)" />
+    <entry value="1"		name="RAID-1 (Mirrored)" />
+    <entry value="4"		name="RAID-4 (Striped with Dedicated Block-Level Parity)" />
+    <entry value="5"		name="RAID-5 (Striped with Distributed Parity)" />
+    <entry value="6"		name="RAID-6 (Striped with Dual Parity)" />
+    <entry value="10"		name="RAID-10 (Mirror of stripes)" />
+    <entry value="0xFFFFFFFF"	name="Linear" />	<!-- value="-1" -->
+    <entry value="0xFFFFFFFC"	name="Multi-Path" />	<!-- value="-4" -->
+    <!--
+       - I don't know how to properly express negative numbers without error.
+       - It appears to convert the -1 into (uint64) regardless of any casting
+       - even with properly changing the type to "int32".
+    < -->
+  </enumDef>
+
+  <enumDef name="RaidLayout" type="uint32">
+    <entry value="0"		name="left asymmetric" />
+    <entry value="1"		name="right asymmetric" />
+    <entry value="2"		name="left symmetric (default)" />
+    <entry value="3"		name="right symmetric" />
+    <entry value="0x01020100"	name="Raid-10 Offset2" />
+  </enumDef>
+
   <struct name="superblock">
     <struct name="magicNumberIDArea">
       <primitive name="magic" type="uint32" />
@@ -23,18 +47,18 @@ License: GPLv3
 	<primitive name="set_name" type="char" />
       </array>
       <primitive name="ctime" type="uint64" />
-      <primitive name="level" type="uint32" />
-      <primitive name="layout" type="uint32" />
+      <enum name="level" enum="RaidLevel" type="uint32" />
+      <enum name="layout" enum="RaidLayout" type="uint32" />
       <primitive name="size" type="uint64" />
       <primitive name="chunksize" type="uint32" />
       <primitive name="raid_disks" type="uint32" />
       <primitive name="bitmap_offset" type="uint32" />
     </struct>
     <struct name="reshapeInProcessMetaDataArea">
-      <primitive name="new_level" type="uint32" />
+      <enum name="new_level" enum="RaidLevel" type="uint32" />
       <primitive name="reshape_position" type="uint64" />
       <primitive name="delta_disks" type="uint32" />
-      <primitive name="new_layout" type="uint32" />
+      <enum name="new_layout" enum="RaidLayout" type="uint32" />
       <primitive name="new_chunk" type="uint32" />
       <array name="pad1" length="4">
 	<primitive name="pad1" type="uint8" />
