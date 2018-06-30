@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+mdadm RAID Superblock structure
+Reference: https://raid.wiki.kernel.org/index.php/RAID_superblock_formats
+
+Copyright (C) 2018  http://github.com/jon-stumpf
+
+License: GPLv3
+-->
+<data>
+  <struct name="superblock">
+    <struct name="magicNumberIDArea">
+      <primitive name="magic" type="uint32" />
+      <primitive name="major_version" type="uint32" />
+      <primitive name="feature_map" type="uint32" />
+      <primitive name="pad0" type="uint32" />
+    </struct>
+    <struct name="arrayIDConfigArea">
+      <array name="set_uuid" length="16">
+	<primitive name="set_uuid" type="uint8" />
+      </array>
+      <array name="set_name" length="32">
+	<primitive name="set_name" type="char" />
+      </array>
+      <primitive name="ctime" type="uint64" />
+      <primitive name="level" type="uint32" />
+      <primitive name="layout" type="uint32" />
+      <primitive name="size" type="uint64" />
+      <primitive name="chunksize" type="uint32" />
+      <primitive name="raid_disks" type="uint32" />
+      <primitive name="bitmap_offset" type="uint32" />
+    </struct>
+    <struct name="reshapeInProcessMetaDataArea">
+      <primitive name="new_level" type="uint32" />
+      <primitive name="reshape_position" type="uint64" />
+      <primitive name="delta_disks" type="uint32" />
+      <primitive name="new_layout" type="uint32" />
+      <primitive name="new_chunk" type="uint32" />
+      <array name="pad1" length="4">
+	<primitive name="pad1" type="uint8" />
+      </array>
+    </struct>
+    <struct name="thisComponentDeviceInfoArea">
+      <primitive name="data_offset" type="uint64" />
+      <primitive name="data_size" type="uint64" />
+      <primitive name="super_offset" type="uint64" />
+      <primitive name="recovery_offset" type="uint64" />
+      <primitive name="dev_number" type="uint32" />
+      <primitive name="cnt_corrected_read" type="uint32" />
+      <array name="device_uuid" length="16">
+	<primitive name="device_uuid" type="uint8" />
+      </array>
+      <primitive name="devflags" type="uint8" />
+      <array name="pad2" length="7">
+	<primitive name="pad2" type="uint8" />
+      </array>
+    </struct>
+    <struct name="arrayStateInfoArea">
+      <primitive name="utime" type="uint64" />
+      <primitive name="events" type="uint64" />
+      <primitive name="resync_offset" type="uint64" />
+      <primitive name="sb_csum" type="uint32" />
+      <primitive name="max_dev" type="uint32" />
+      <array name="pad3" length="32">
+	<primitive name="pad3" type="uint8" />
+      </array>
+    </struct>
+    <array name="deviceRolesArea" length="function() { return this.parent.arrayIDConfigArea.raid_disks.value; }">
+      <primitive name="deviceRolesArea" type="uint16" />
+    </array>
+    <!-- Added padding based on observational data -->
+    <array name="pad4" length="function() { return (128 - this.parent.arrayIDConfigArea.raid_disks.value); }">
+      <primitive name="pad4" type="uint16" />
+    </array>
+  </struct>
+</data>

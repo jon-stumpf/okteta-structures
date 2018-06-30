@@ -1,0 +1,18 @@
+[Desktop Entry]
+Encoding=UTF-8
+Icon=x-shape-image
+Type=Service
+ServiceTypes=KPluginInfo
+
+Name=mdadm RAID superblock (v1.x)
+Name[x-test]=xxmdadm RAID superblock (v1.x)xx
+Comment=The Linux kernel RAID subsystem superblock structure (v1.x) as defined in https://raid.wiki.kernel.org/index.php/RAID_superblock_formats.
+Comment[x-test]=xxThe Linux kernel RAID subsystem superblock structure (v1.x) as defined in https://raid.wiki.kernel.org/index.php/RAID_superblock_formats.xx
+X-KDE-PluginInfo-Author=Jon S. Stumpf
+X-KDE-PluginInfo-Email=jon.stumpf@gmail.com
+X-KDE-PluginInfo-Name=mdadm-raid-superblock
+X-KDE-PluginInfo-Version=1.0
+#X-KDE-PluginInfo-Website=http://www.plugin.org/
+X-KDE-PluginInfo-Category=structure
+X-KDE-PluginInfo-License=GPLv3
+X-KDE-PluginInfo-EnabledByDefault=false
